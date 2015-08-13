@@ -113,6 +113,22 @@ public class Driver
                 pw.println("import anotaciones.*;");
                 pw.println("import java.lang.reflect.*;");
                 pw.println("import java.lang.annotation.Annotation;");
+                pw.println("import java.io.BufferedWriter;");                
+                pw.println("import java.io.FileNotFoundException;");
+                pw.println("import java.io.FileOutputStream;");
+                pw.println("import java.io.IOException;");
+                pw.println("import java.io.OutputStreamWriter;");
+                pw.println("import java.io.UnsupportedEncodingException;");
+                pw.println("import java.io.Writer;");
+                pw.println("import java.util.Date;");
+
+
+
+
+
+
+
+
 
                 br.close();
 
@@ -161,7 +177,21 @@ public class Driver
 
                             }
                             else if(annotation.getName()==Log.class.getName()){
-                                texto="System.out.println(\"hola nuevo\");";
+                                texto=""
+                                        + " Date fecha=new Date();\n" +
+                                "        try (\n" +
+                                "            Writer writer = new BufferedWriter(\n" +
+                                "            new OutputStreamWriter(\n" +
+                                "            new FileOutputStream(\"log.txt\",true), \"utf-8\"))\n" +
+                                "                ) {\n" +
+                                "                writer.write(\"\\n"+objetivo.getSimpleName()+" "+method.getName()+" \"+fecha);\n" +
+                                "            } catch (UnsupportedEncodingException ex) {\n" +
+                                "                System.out.println(ex);\n" +
+                                "            } catch (FileNotFoundException ex) {\n" +
+                                "                System.out.println(ex);\n" +
+                                "            } catch (IOException ex) {\n" +
+                                "                System.out.println(ex);\n" +
+                                "            }";
                             }
                         }
 
@@ -204,7 +234,7 @@ public class Driver
                     error = new BufferedReader(new InputStreamReader(b.getInputStream()));
                     for(String h;(h=error.readLine())!=null;)System.out.println(h);
                     
-                  //  source.delete();
+                    source.delete();
                     
                     // Se carga el proxy
                     Class ret =  Class.forName(paquete+"." + objetivo.getSimpleName() + "Proxy");
@@ -218,7 +248,7 @@ public class Driver
                     }
                 }else{
                     // Si el objetivo no tiene inyecciones no se usa proxy
-                    //source.delete();
+                    source.delete();
                     proxys.put(objetivo, objetivo);
                     return objetivo;
                 }
@@ -233,7 +263,7 @@ public class Driver
             // Si ocurre alguna excepción se elimina el proxy y se utiliza al objetivo como su propio
             // proxy
             if(pw!=null) pw.close();
-            //source.delete();
+            source.delete();
         }
         proxys.put(objetivo, objetivo);
         return objetivo;
