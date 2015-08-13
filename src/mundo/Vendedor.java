@@ -95,10 +95,10 @@ public class Vendedor
         valido &= (this.sexo != null && !this.sexo.isEmpty());
 
         if (valido) {
-            System.out.println("La información del mueble es valida"); 
+            System.out.println("La información del vendedor es valida"); 
         }
         else{
-            System.out.println("La información del mueble no es valida");
+            System.out.println("La información del vendedor no es valida");
         } 
     }
 }
