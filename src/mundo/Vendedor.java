@@ -12,6 +12,7 @@
 package mundo;
 
 import anotaciones.Init;
+import anotaciones.Log;
 import anotaciones.PostConstructor;
 
 /**
@@ -70,6 +71,7 @@ public class Vendedor
         return id;
     }
 
+    @Log
     protected void setId(int id) {
         this.id = id;
     }

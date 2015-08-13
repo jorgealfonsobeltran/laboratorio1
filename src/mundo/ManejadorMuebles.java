@@ -13,6 +13,7 @@ package mundo;
 
 import anotaciones.Cargar;
 import anotaciones.Driver;
+import anotaciones.Log;
 import java.util.ArrayList;
 
 /**
@@ -47,6 +48,7 @@ public class ManejadorMuebles {
      * Crea un nuevo mueble, lo añade a la lista y lo retorna
      * @return
      */
+    @Log
     public Mueble nuevoMueble() {
         Mueble nuevo = (Mueble)Driver.instanciar(Mueble.class);
         nuevo.setId(idGenerator++);
@@ -72,6 +74,7 @@ public class ManejadorMuebles {
      * Elimina un mueble dado su identificador
      * @param id Id del mueble
      */
+    @Log
     public void eliminarMueble(int id) {
         for(int e = 0;e<muebles.size();e++){
             if(muebles.get(e).getId()==id){

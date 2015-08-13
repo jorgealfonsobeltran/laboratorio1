@@ -36,7 +36,7 @@ public class Driver
      * Anotaciones que tienen inserciones de codigo. Toda anotación que tenga un método que la
      * represente en la clase CodigoInserciones debe estar en este arreglo para que sea efectiva
      */
-    public static Class[] anotacionesInsercion = {Init.class};
+    public static Class[] anotacionesInsercion = {Init.class, Log.class};
     
 
     /**
@@ -157,16 +157,29 @@ public class Driver
                                 pw.println("}catch (Exception ex) {");
                                 pw.println("ex.printStackTrace();");
                                 pw.println("}}");
-
+                                
+                                
+//                                if(method.isAnnotationPresent(Log.class))        
+//                                {
+//                                    pw.println("System.out.println(\"Log\");");
+//                                    
+//                                }
                             }
+                            
+                            
                         }
-
-                        // Se llama al correspondiente método de la super clase
-                        if(!tipoRetorno.equals(Void.TYPE))pw.print("return ");
-                        pw.print("super."+method.getName()+"(");
+                        pw.print(method.getReturnType().getName() + " ret = super."+method.getName()+"(");
                         for(int e=0;e<para.length;e++)pw.print("arg"+e+(e==para.length-1?"":","));
                         pw.println(");");
-
+                        if(method.isAnnotationPresent(Log.class))        
+                        {
+                            //System.out.println("Log");
+                            pw.println("System.out.println(\"Log\");");
+                        }
+                        // Se llama al correspondiente método de la super clase
+                        if(!tipoRetorno.equals(Void.TYPE))pw.print("return ");
+                        pw.print("ret;");                      
+                        
                         pw.println("}");
                         tieneInyecciones = true;
                     }
@@ -189,7 +202,7 @@ public class Driver
                     error = new BufferedReader(new InputStreamReader(b.getInputStream()));
                     for(String h;(h=error.readLine())!=null;)System.out.println(h);
                     
-                    source.delete();
+                    //source.delete();
                     
                     // Se carga el proxy
                     Class ret =  Class.forName(paquete+"." + objetivo.getSimpleName() + "Proxy");
@@ -203,7 +216,7 @@ public class Driver
                     }
                 }else{
                     // Si el objetivo no tiene inyecciones no se usa proxy
-                    source.delete();
+                    //source.delete();
                     proxys.put(objetivo, objetivo);
                     return objetivo;
                 }
@@ -218,7 +231,7 @@ public class Driver
             // Si ocurre alguna excepción se elimina el proxy y se utiliza al objetivo como su propio
             // proxy
             if(pw!=null) pw.close();
-            source.delete();
+            //source.delete();
         }
         proxys.put(objetivo, objetivo);
         return objetivo;
