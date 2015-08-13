@@ -284,18 +284,18 @@ public class Driver
             // Se invoca el constructor
             Object objeto = constructor.newInstance();
             
+            // Se verifica si la clase tiene la anotación Init
+            if(c.isAnnotationPresent(Init.class)){
+                // Se inicializan los atributos afectador por las anotaciones Init
+                CodigoInserciones.Init(objeto,c,c.getAnnotation(Init.class),null);
+            }
+            
             //Iterar cada metodo buscando
             for (Method f : c.getMethods()) {
                 // Se instancian los atributos anotados con Cargar
                 if (f.isAnnotationPresent(PostConstructor.class)) {
                     f.invoke(objeto);
                 }
-            }
-            
-            // Se verifica si la clase tiene la anotación Init
-            if(c.isAnnotationPresent(Init.class)){
-                // Se inicializan los atributos afectador por las anotaciones Init
-                CodigoInserciones.Init(objeto,c,c.getAnnotation(Init.class),null);
             }
             
             for (Field f : c.getDeclaredFields()) {

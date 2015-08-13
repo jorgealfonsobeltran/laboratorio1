@@ -20,7 +20,7 @@ import anotaciones.PostConstructor;
  * Entidad que representa un mueble de MLA
  * @author German Sotelo
  */
-@Init(String="",Double=0)
+@Init(String="Producto",Double=1)
 public class Mueble {
 
     /**
@@ -78,9 +78,6 @@ public class Mueble {
         
         //Valida que el nombre no sea nulo o vacio
         valido &= (this.nombre != null && !this.nombre.isEmpty());
-        
-        //Valida que el identificador sea mayor a 0
-        valido &= (this.id > 0);
         
         //Valida que el precio sea mayor a 0
         valido &= (this.precio > 0);
