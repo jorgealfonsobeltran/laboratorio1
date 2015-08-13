@@ -13,6 +13,7 @@
 package mundo;
 import anotaciones.Init;
 import anotaciones.Log;
+import anotaciones.NoInit;
 import anotaciones.PostConstructor;
 
 /**
@@ -30,6 +31,7 @@ public class Mueble {
     /**
      * Identificador del mueble, tiene que ser único
      */
+    @NoInit
     private int id;
 
     /**

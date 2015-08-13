@@ -23,7 +23,6 @@ import java.lang.reflect.Modifier;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.annotation.PostConstruct;
 
 /**
  * Clase encargada de la instanciación y el manejo de las anotaciones

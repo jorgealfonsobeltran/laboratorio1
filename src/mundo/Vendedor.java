@@ -13,6 +13,7 @@ package mundo;
 
 import anotaciones.Init;
 import anotaciones.Log;
+import anotaciones.NoInit;
 import anotaciones.PostConstructor;
 
 /**
@@ -26,6 +27,7 @@ public class Vendedor
     /**
      * Id del vendedor. Tiene que ser único.
      */
+    @NoInit
     private int id;
 
     /**
