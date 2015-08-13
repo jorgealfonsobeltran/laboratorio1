@@ -89,6 +89,7 @@ public class Driver
         Class proxy = proxys.get(objetivo);
         if(proxy!=null)return proxy;
         File classes = new File("./build/classes/"), classpa = new File("./src/");
+                String texto="";
 
         // Este archivo es el archivo .java del proxy
         File source = new File("./src/mundo/" + objetivo.getSimpleName() + "Proxy.java");
@@ -97,7 +98,6 @@ public class Driver
         try {
             // La insercion sólo se realiza si el objetivo es una clase
             if (!objetivo.isInterface() && !objetivo.isEnum()) {
-                String texto="";
                 boolean tieneInyecciones = false;
                 pw = new PrintWriter(source);
                 String paquete = objetivo.getPackage().getName();
@@ -233,7 +233,7 @@ public class Driver
                     error = new BufferedReader(new InputStreamReader(b.getInputStream()));
                     for(String h;(h=error.readLine())!=null;)System.out.println(h);
                     
-                    source.delete();
+                  //  source.delete();
                     
                     // Se carga el proxy
                     Class ret =  Class.forName(paquete+"." + objetivo.getSimpleName() + "Proxy");
@@ -247,13 +247,32 @@ public class Driver
                     }
                 }else{
                     // Si el objetivo no tiene inyecciones no se usa proxy
-                    source.delete();
+                   // source.delete();
                     proxys.put(objetivo, objetivo);
                     return objetivo;
                 }
 
             }
             else {
+                if(objetivo.isInterface()){
+                for (Method method : objetivo.getDeclaredMethods()) {
+                    texto=""
+                                        + " Date fecha=new Date();\n" +
+                                "        try (\n" +
+                                "            Writer writer = new BufferedWriter(\n" +
+                                "            new OutputStreamWriter(\n" +
+                                "            new FileOutputStream(\"AnotacionInterfaz.txt\",true), \"utf-8\"))\n" +
+                                "                ) {\n" +
+                                "                writer.write(\"\\n"+objetivo.getSimpleName()+" "+method.getName()+" \"+fecha);\n" +
+                                "            } catch (UnsupportedEncodingException ex) {\n" +
+                                "                System.out.println(ex);\n" +
+                                "            } catch (FileNotFoundException ex) {\n" +
+                                "                System.out.println(ex);\n" +
+                                "            } catch (IOException ex) {\n" +
+                                "                System.out.println(ex);\n" +
+                                "            }";
+                }
+                }
                 // Si el objetivo es una interfaz no se usa un proxy
                 proxys.put(objetivo, objetivo);
                 return objetivo;
@@ -262,7 +281,7 @@ public class Driver
             // Si ocurre alguna excepción se elimina el proxy y se utiliza al objetivo como su propio
             // proxy
             if(pw!=null) pw.close();
-            source.delete();
+           // source.delete();
         }
         proxys.put(objetivo, objetivo);
         return objetivo;
@@ -296,6 +315,11 @@ public class Driver
             if(c.isAnnotationPresent(Init.class)){
                 // Se inicializan los atributos afectador por las anotaciones Init
                 CodigoInserciones.Init(objeto,c,c.getAnnotation(Init.class),null);
+            }
+            if(c.isAnnotationPresent(InterfaceDetector.class)){
+            if(c.isInterface()){
+                crearProxy(c);
+            }
             }
             
             for (Field f : c.getDeclaredFields()) {
