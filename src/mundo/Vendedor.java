@@ -80,6 +80,25 @@ public class Vendedor
 
     @PostConstructor
     public void postConstructor(){
-        System.out.println("postConstructor Vendedor");
+        boolean valido = true;
+        
+        //Valida que el identificador sea mayor a 0
+        valido &= (this.id > 0);
+        
+        //Valida que los nombres no sean nulos o vacios
+        valido &= (this.nombres != null && !this.nombres.isEmpty());
+        
+        //Valida que los apellidos no sean nulos o vacios
+        valido &= (this.apellidos != null && !this.apellidos.isEmpty());
+        
+        //Valida que el valor de sexo no sea nulo o vacio
+        valido &= (this.sexo != null && !this.sexo.isEmpty());
+
+        if (valido) {
+            System.out.println("La información del mueble es valida"); 
+        }
+        else{
+            System.out.println("La información del mueble no es valida");
+        } 
     }
 }
