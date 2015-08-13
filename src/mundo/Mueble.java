@@ -12,6 +12,7 @@
 
 package mundo;
 import anotaciones.Init;
+import anotaciones.PostConstructor;
 
 /**
  * Entidad que representa un mueble de MLA
@@ -67,4 +68,8 @@ public class Mueble {
 
     }
     
+    @PostConstructor
+    public void postConstructor(){
+        System.out.println("postConstructor Mueble"); 
+    }
 }

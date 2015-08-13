@@ -12,6 +12,7 @@
 package mundo;
 
 import anotaciones.Init;
+import anotaciones.PostConstructor;
 
 /**
  * Entidad que representa a un vendedor de MLA
@@ -73,4 +74,8 @@ public class Vendedor
         this.id = id;
     }
 
+    @PostConstructor
+    public void postConstructor(){
+        System.out.println("postConstructor Vendedor");
+    }
 }

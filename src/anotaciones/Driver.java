@@ -36,6 +36,7 @@ public class Driver
      * represente en la clase CodigoInserciones debe estar en este arreglo para que sea efectiva
      */
     public static Class[] anotacionesInsercion = {Init.class};
+    
 
     /**
      * Estructura encargada de contener las clases y sus proxys
