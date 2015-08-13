@@ -82,9 +82,6 @@ public class Vendedor
     public void postConstructor(){
         boolean valido = true;
         
-        //Valida que el identificador sea mayor a 0
-        valido &= (this.id > 0);
-        
         //Valida que los nombres no sean nulos o vacios
         valido &= (this.nombres != null && !this.nombres.isEmpty());
         
