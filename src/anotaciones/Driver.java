@@ -23,6 +23,7 @@ import java.lang.reflect.Modifier;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.annotation.PostConstruct;
 
 /**
  * Clase encargada de la instanciación y el manejo de las anotaciones
@@ -238,7 +239,15 @@ public class Driver
 
             // Se invoca el constructor
             Object objeto = constructor.newInstance();
-
+            
+            //Iterar cada metodo buscando
+            for (Method f : c.getMethods()) {
+                // Se instancian los atributos anotados con Cargar
+                if (f.isAnnotationPresent(PostConstructor.class)) {
+                    f.invoke(objeto);
+                }
+            }
+            
             // Se verifica si la clase tiene la anotación Init
             if(c.isAnnotationPresent(Init.class)){
                 // Se inicializan los atributos afectador por las anotaciones Init
