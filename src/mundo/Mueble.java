@@ -20,7 +20,7 @@ import anotaciones.PostConstructor;
  * Entidad que representa un mueble de MLA
  * @author German Sotelo
  */
-@Init(String="",Double=0)
+@Init(String="Producto",Double=0)
 public class Mueble {
 
     /**
