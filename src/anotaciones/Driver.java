@@ -86,7 +86,7 @@ public class Driver
      * @param objetivo
      * @return
      */
-    private static Class crearProxy(Class objetivo) {
+    private static Class crearProxy(Class objetivo) {        
         Class proxy = proxys.get(objetivo);
         if(proxy!=null)return proxy;
         File classes = new File("./build/classes/"), classpa = new File("./src/");
@@ -98,6 +98,7 @@ public class Driver
         try {
             // La insercion sólo se realiza si el objetivo es una clase
             if (!objetivo.isInterface() && !objetivo.isEnum()) {
+                String texto="";
                 boolean tieneInyecciones = false;
                 pw = new PrintWriter(source);
                 String paquete = objetivo.getPackage().getName();
@@ -143,7 +144,7 @@ public class Driver
 
                         // Se verifica e inyecta el código de cada anotación presente
                         for(Class annotation:anotacionesInsercion){
-                            if(method.isAnnotationPresent(annotation)){
+                            if(method.isAnnotationPresent(Init.class) && annotation.getName()==Init.class.getName()){
                                 pw.println("{try{");
                                 pw.print("Method meth = "+objetivo.getSimpleName()+".class.getMethod(\""+method.getName()+"\",new Class[]{");
                                 for(int e=0;e<para.length;e++)pw.print(getRealType(para[e])+(e==para.length-1?"":","));
@@ -157,29 +158,30 @@ public class Driver
                                 pw.println("}catch (Exception ex) {");
                                 pw.println("ex.printStackTrace();");
                                 pw.println("}}");
-                                
-                                
-//                                if(method.isAnnotationPresent(Log.class))        
-//                                {
-//                                    pw.println("System.out.println(\"Log\");");
-//                                    
-//                                }
+
                             }
-                            
-                            
+                            else if(annotation.getName()==Log.class.getName()){
+                                texto="System.out.println(\"hola nuevo\");";
+                            }
                         }
-                        pw.print(method.getReturnType().getName() + " ret = super."+method.getName()+"(");
-                        for(int e=0;e<para.length;e++)pw.print("arg"+e+(e==para.length-1?"":","));
-                        pw.println(");");
-                        if(method.isAnnotationPresent(Log.class))        
-                        {
-                            //System.out.println("Log");
-                            pw.println("System.out.println(\"Log\");");
+
+                        if(!tipoRetorno.equals(Void.TYPE)){
+                            pw.print(method.getReturnType().getName() +" retorno = super."+method.getName()+"(");
+                            for(int e=0;e<para.length;e++)pw.print("arg"+e+(e==para.length-1?"":","));
+                            pw.println(");");
                         }
+
                         // Se llama al correspondiente método de la super clase
-                        if(!tipoRetorno.equals(Void.TYPE))pw.print("return ");
-                        pw.print("ret;");                      
-                        
+                        if(!tipoRetorno.equals(Void.TYPE)){
+                            pw.print(texto);
+                            pw.print("return retorno;");
+                        }
+                        else{
+                            pw.print("super."+method.getName()+"(");
+                            for(int e=0;e<para.length;e++)pw.print("arg"+e+(e==para.length-1?"":","));
+                            pw.println(");");
+                            pw.print(texto);
+                        }
                         pw.println("}");
                         tieneInyecciones = true;
                     }
@@ -202,7 +204,7 @@ public class Driver
                     error = new BufferedReader(new InputStreamReader(b.getInputStream()));
                     for(String h;(h=error.readLine())!=null;)System.out.println(h);
                     
-                    //source.delete();
+                  //  source.delete();
                     
                     // Se carga el proxy
                     Class ret =  Class.forName(paquete+"." + objetivo.getSimpleName() + "Proxy");
