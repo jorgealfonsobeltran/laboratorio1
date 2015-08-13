@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextPane;
 import mundo.*;
 
 /**
@@ -40,9 +41,11 @@ public class InterfazTiendaLosAlpes extends JFrame {
         JPanel center = new JPanel();
         JTabbedPane jtp = new JTabbedPane();
         center.add(jtp);
-
+        JLabel jLabel = new JLabel("label Text");
+        center.add(jLabel);
         jtp.addTab("Muebles", new PanelMuebles(mla.getManejadorMuebles()));
         jtp.addTab("Vendedores", new PanelVendedores(mla.getManejadorVendedores()));
+        jtp.addTab("Proveedor Interface", new PanelProveedor(mla.getManejadorProveedor()));
 
         add(jtp, BorderLayout.CENTER);
         add(header, BorderLayout.NORTH);

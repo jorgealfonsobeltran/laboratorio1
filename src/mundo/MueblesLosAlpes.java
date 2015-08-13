@@ -31,6 +31,9 @@ public class MueblesLosAlpes {
     @Cargar
     private ManejadorVendedores vendedores;
 
+    @Cargar
+    private ManejadorProveedor proveedores;
+    
     public MueblesLosAlpes() {
         System.out.println("Constructor ");
     }
@@ -49,6 +52,14 @@ public class MueblesLosAlpes {
      */
     public ManejadorVendedores getManejadorVendedores() {
         return vendedores;
+    }
+
+    /**
+     * Retorna el manejador de la lista de vendedores
+     * @return
+     */
+    public ManejadorProveedor getManejadorProveedor() {
+        return proveedores;
     }
 
     /**
