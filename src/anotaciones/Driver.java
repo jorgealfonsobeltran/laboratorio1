@@ -284,14 +284,6 @@ public class Driver
             // Se invoca el constructor
             Object objeto = constructor.newInstance();
             
-            //Iterar cada metodo buscando
-            for (Method f : c.getMethods()) {
-                // Se instancian los atributos anotados con Cargar
-                if (f.isAnnotationPresent(PostConstructor.class)) {
-                    f.invoke(objeto);
-                }
-            }
-            
             // Se verifica si la clase tiene la anotación Init
             if(c.isAnnotationPresent(Init.class)){
                 // Se inicializan los atributos afectador por las anotaciones Init
@@ -303,6 +295,14 @@ public class Driver
                 if (f.isAnnotationPresent(Cargar.class)) {
                     f.setAccessible(true);
                     f.set(objeto, instanciar(f.getType()));
+                }
+            }
+            
+            //Iterar cada metodo buscando
+            for (Method f : c.getMethods()) {
+                // Se instancian los atributos anotados con Cargar
+                if (f.isAnnotationPresent(PostConstructor.class)) {
+                    f.invoke(objeto);
                 }
             }
 

@@ -13,6 +13,7 @@ package mundo;
 
 import anotaciones.Cargar;
 import anotaciones.Driver;
+import anotaciones.Init;
 import anotaciones.Log;
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
  * Clase encargada de de manejar la creación, eliminación y búsqueda de los muebles de MLA
  * @author Germán Sotelo
  */
+@Init(String="Producto",Double=1)
 public class ManejadorMuebles {
 
     /**

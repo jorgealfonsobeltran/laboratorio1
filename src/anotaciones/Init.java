@@ -25,9 +25,9 @@ import java.lang.annotation.*;
 public @interface Init {
 
     String String() default "";
-    double Double() default 0.0;
+    double Double() default 1.0;
     int Integer() default 200;
-    char Char() default '\0';
+    char Char() default '\1';
     boolean Boolean() default false;
     long Long() default -1;
     float Float() default 0;

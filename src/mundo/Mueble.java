@@ -12,7 +12,6 @@
 
 package mundo;
 import anotaciones.Init;
-import anotaciones.Log;
 import anotaciones.NoInit;
 import anotaciones.PostConstructor;
 
