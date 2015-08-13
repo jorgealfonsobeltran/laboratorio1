@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 
 /**
  *
- * @author G40
+ * @author Your Name
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

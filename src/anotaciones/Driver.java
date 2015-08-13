@@ -290,19 +290,19 @@ public class Driver
                 CodigoInserciones.Init(objeto,c,c.getAnnotation(Init.class),null);
             }
             
-            //Iterar cada metodo buscando
-            for (Method f : c.getMethods()) {
-                // Se instancian los atributos anotados con Cargar
-                if (f.isAnnotationPresent(PostConstructor.class)) {
-                    f.invoke(objeto);
-                }
-            }
-            
             for (Field f : c.getDeclaredFields()) {
                 // Se instancian los atributos anotados con Cargar
                 if (f.isAnnotationPresent(Cargar.class)) {
                     f.setAccessible(true);
                     f.set(objeto, instanciar(f.getType()));
+                }
+            }
+            
+            //Iterar cada metodo buscando
+            for (Method f : c.getMethods()) {
+                // Se instancian los atributos anotados con Cargar
+                if (f.isAnnotationPresent(PostConstructor.class)) {
+                    f.invoke(objeto);
                 }
             }
 
